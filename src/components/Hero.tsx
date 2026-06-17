@@ -164,10 +164,6 @@ export function Hero() {
             </a>
           </div>
         </div>
-        <div className="scroll-card" aria-label="Przewiń, aby odtworzyć animację">
-          <span>Scroll</span>
-          <strong>Sekwencja gotowa</strong>
-        </div>
       </div>
     </section>
   );
