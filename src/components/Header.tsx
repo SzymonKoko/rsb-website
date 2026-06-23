@@ -8,10 +8,13 @@ export function Header() {
   return (
     <header className="site-header">
       <a className="brand" href="#home" aria-label="Rozwiń Swój Biznes - strona główna">
-        <span className="brand-mark" aria-hidden="true">
-          R
-        </span>
-        <span>Rozwiń Swój Biznes</span>
+        <img
+          className="brand-logo"
+          src="/assets/logo_rsb_tekst.png"
+          alt="Rozwiń Swój Biznes (RSB)"
+          decoding="async"
+          fetchPriority="high"
+        />
       </a>
       <nav aria-label="Główna nawigacja">
         {links.map((link) => (

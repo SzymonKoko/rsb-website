@@ -149,6 +149,12 @@ export function Hero() {
         <canvas className="hero-sequence-canvas" ref={canvasRef} aria-hidden="true" />
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-content">
+          <img
+            className="hero-logo"
+            src="/assets/logo_wykres_tekst.png"
+            alt="Rozwiń Swój Biznes (RSB)"
+            decoding="async"
+          />
           <p className="eyebrow">Strony, marketing, SEO</p>
           <h1 id="hero-title">Rozwiń Swój Biznes online.</h1>
           <p className="hero-text">
