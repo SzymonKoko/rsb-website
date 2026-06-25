@@ -1,4 +1,18 @@
-const services = [
+import { useEffect, useState } from 'react';
+import { getFaqs, getServices, hasCmsApi } from '../api/client';
+import { usePageContent } from '../content/pageContentContext';
+
+type ServiceCard = {
+  title: string;
+  text: string;
+};
+
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+const fallbackServices: ServiceCard[] = [
   {
     title: 'Strony wizytówkowe',
     text: 'Struktura, copy i projekt dla lokalnych firm, które chcą szybko pokazać ofertę, zbudować zaufanie i zbierać zapytania z Google.',
@@ -77,7 +91,7 @@ const process = [
   },
 ];
 
-const faqs = [
+const fallbackFaqs: FaqItem[] = [
   {
     question: 'Czy RSB tworzy strony internetowe dla lokalnych firm?',
     answer:
@@ -106,20 +120,60 @@ const faqs = [
 ];
 
 export function Features() {
+  const content = usePageContent();
+  const [serviceItems, setServiceItems] = useState<ServiceCard[]>(fallbackServices);
+  const [faqItems, setFaqItems] = useState<FaqItem[]>(fallbackFaqs);
+
+  useEffect(() => {
+    if (!hasCmsApi()) {
+      return;
+    }
+
+    let isMounted = true;
+
+    Promise.all([getServices(), getFaqs()])
+      .then(([servicesResponse, faqsResponse]) => {
+        if (!isMounted) {
+          return;
+        }
+
+        if (servicesResponse.data.length) {
+          setServiceItems(
+            servicesResponse.data.map((service) => ({
+              title: service.title,
+              text: service.description,
+            })),
+          );
+        }
+
+        if (faqsResponse.data.length) {
+          setFaqItems(
+            faqsResponse.data.map((faq) => ({
+              question: faq.question,
+              answer: faq.answer,
+            })),
+          );
+        }
+      })
+      .catch(() => {
+        // Static fallback keeps the marketing page available if the CMS is offline.
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="section offer" id="offer" aria-labelledby="offer-title">
       <div className="section-heading premium-heading">
-        <p className="eyebrow">Oferta</p>
-        <h2 id="offer-title">Strona internetowa jako narzędzie sprzedaży, nie folder online.</h2>
-        <p>
-          Rozwiń Swój Biznes łączy projektowanie stron, marketing internetowy i SEO lokalne
-          w jednym procesie. Efekt: witryna, która wygląda premium, jasno tłumaczy ofertę
-          i pomaga zdobywać zapytania.
-        </p>
+        <p className="eyebrow">{content.offerEyebrow}</p>
+        <h2 id="offer-title">{content.offerTitle}</h2>
+        <p>{content.offerText}</p>
       </div>
 
       <div className="service-grid">
-        {services.map((service) => (
+        {serviceItems.map((service) => (
           <article className="service-card lift-card" key={service.title}>
             <span className="card-kicker">RSB</span>
             <h3>{service.title}</h3>
@@ -130,8 +184,8 @@ export function Features() {
 
       <div className="audience-block" aria-labelledby="audience-title">
         <div className="section-heading compact-heading">
-          <p className="eyebrow">Dla kogo</p>
-          <h2 id="audience-title">Dla firm, które chcą wyglądać dojrzale zanim klient zadzwoni.</h2>
+          <p className="eyebrow">{content.audienceEyebrow}</p>
+          <h2 id="audience-title">{content.audienceTitle}</h2>
         </div>
         <div className="audience-grid">
           {audiences.map((audience) => (
@@ -146,8 +200,8 @@ export function Features() {
 
       <div className="metrics-panel" aria-labelledby="metrics-title">
         <div>
-          <p className="eyebrow">Dowód pracy</p>
-          <h2 id="metrics-title">Liczby, które mają wspierać zaufanie, nie robić hałas.</h2>
+          <p className="eyebrow">{content.metricsEyebrow}</p>
+          <h2 id="metrics-title">{content.metricsTitle}</h2>
         </div>
         <div className="metrics-grid">
           {metrics.map((metric) => (
@@ -162,8 +216,8 @@ export function Features() {
 
       <div className="process-panel" aria-labelledby="process-title">
         <div className="section-heading compact-heading">
-          <p className="eyebrow">Proces</p>
-          <h2 id="process-title">Od oferty do gotowej strony bez zgadywania.</h2>
+          <p className="eyebrow">{content.processEyebrow}</p>
+          <h2 id="process-title">{content.processTitle}</h2>
         </div>
         <div className="process-band" aria-label="Proces współpracy">
           {process.map((item) => (
@@ -178,11 +232,11 @@ export function Features() {
 
       <div className="faq-block" aria-labelledby="faq-title">
         <div className="section-heading compact-heading">
-          <p className="eyebrow">FAQ</p>
-          <h2 id="faq-title">Najczęstsze pytania przed startem projektu.</h2>
+          <p className="eyebrow">{content.faqEyebrow}</p>
+          <h2 id="faq-title">{content.faqTitle}</h2>
         </div>
         <div className="faq-list">
-          {faqs.map((faq) => (
+          {faqItems.map((faq) => (
             <details className="faq-item lift-card" key={faq.question}>
               <summary>{faq.question}</summary>
               <p>{faq.answer}</p>

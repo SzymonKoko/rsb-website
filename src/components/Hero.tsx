@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { usePageContent } from '../content/pageContentContext';
 
 const HERO_FRAMES = Array.from(
   { length: 49 },
@@ -6,6 +7,7 @@ const HERO_FRAMES = Array.from(
 );
 
 export function Hero() {
+  const content = usePageContent();
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const framesRef = useRef<(HTMLImageElement | null)[]>([]);
@@ -149,24 +151,15 @@ export function Hero() {
         <canvas className="hero-sequence-canvas" ref={canvasRef} aria-hidden="true" />
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-content">
-          <img
-            className="hero-logo"
-            src="/assets/logo_wykres_tekst.png"
-            alt="Rozwiń Swój Biznes (RSB)"
-            decoding="async"
-          />
-          <p className="eyebrow">Strony, marketing, SEO</p>
-          <h1 id="hero-title">Rozwiń Swój Biznes online.</h1>
-          <p className="hero-text">
-            RSB tworzy strony wizytówkowe i produktowe, które wspierają sprzedaż,
-            marketing oraz widoczność w Google.
-          </p>
+          <p className="eyebrow">{content.heroEyebrow}</p>
+          <h1 id="hero-title">{content.heroTitle}</h1>
+          <p className="hero-text">{content.heroText}</p>
           <div className="hero-actions" aria-label="Główne akcje">
             <a className="button primary" href="#contact">
-              Zaplanuj stronę
+              {content.heroPrimaryCta}
             </a>
             <a className="button secondary" href="#offer">
-              Zobacz ofertę
+              {content.heroSecondaryCta}
             </a>
           </div>
         </div>

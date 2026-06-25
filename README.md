@@ -9,6 +9,23 @@ npm install
 npm run dev
 ```
 
+## CMS API
+
+The website can read content from the CMSsaas API. Copy `.env.example` to `.env.local` and set:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+When `VITE_API_URL` is missing or the API is unavailable, the page keeps using built-in fallback content.
+
+CMS-backed sections:
+
+- services in `Features`
+- FAQs in `Features`
+- portfolio in `Portfolio`
+- contact form submissions in `ContactForm`
+
 ## Scripts
 
 ```bash
@@ -45,6 +62,8 @@ Before production, replace every `https://example.com/` placeholder in:
 
 For Vercel, Apache, nginx, or another host, copy the same header policy into that platform's configuration.
 
+For production, replace the broad `connect-src https:` placeholder in `public/_headers` with the exact CMS API origin, for example `https://api-client.example.com`.
+
 ## Notes
 
-The contact form is intentionally frontend-only. It prevents default submission and does not send data anywhere until a real email, CRM, or API endpoint is selected.
+The contact form submits to the CMS API when `VITE_API_URL` is configured. Without that variable, it stays in safe fallback mode and does not send data anywhere.

@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .vite/
+.env.local
 *.log
 vite.stdout.log
 vite.stderr.log

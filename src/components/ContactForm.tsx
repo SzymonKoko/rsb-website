@@ -1,47 +1,80 @@
-const briefItems = [
-  'Jaki typ strony chcesz zbudować?',
-  'Kto ma być głównym odbiorcą?',
-  'Jakie zapytania lub sprzedaż ma generować strona?',
-  'Czy potrzebujesz SEO, marketingu albo analityki?',
-];
+import { useState } from 'react';
+import { hasCmsApi, submitContact } from '../api/client';
+import { usePageContent } from '../content/pageContentContext';
 
 export function ContactForm() {
+  const content = usePageContent();
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'offline' | 'error'>('idle');
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!hasCmsApi()) {
+      setStatus('offline');
+      return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get('name') ?? '').trim();
+    const email = String(formData.get('email') ?? '').trim();
+    const scope = String(formData.get('scope') ?? '').trim();
+    const message = String(formData.get('message') ?? '').trim();
+
+    if (!name || !email || !message) {
+      setStatus('error');
+      return;
+    }
+
+    setStatus('sending');
+
+    try {
+      await submitContact({
+        name,
+        email,
+        company: scope || null,
+        message: scope ? `Zakres: ${scope}\n\n${message}` : message,
+      });
+      form.reset();
+      setStatus('sent');
+    } catch {
+      setStatus('error');
+    }
+  }
+
   return (
     <section className="section contact" id="contact" aria-labelledby="contact-title">
       <div className="section-heading">
-        <p className="eyebrow">Kontakt</p>
-        <h2 id="contact-title">Zacznij od krótkiego briefu. Resztę uporządkujemy.</h2>
-        <p>
-          Na tym etapie strona nie wysyła danych do backendu. Formularz działa jako bezpieczny
-          brief pomocniczy; docelowy mail, CRM lub endpoint można podłączyć przy wdrożeniu.
-        </p>
+        <p className="eyebrow">{content.contactEyebrow}</p>
+        <h2 id="contact-title">{content.contactTitle}</h2>
+        <p>{content.contactText}</p>
       </div>
 
       <div className="contact-layout">
         <div className="brief-card">
-          <span className="card-kicker">Brief</span>
-          <h3>Co przygotować przed rozmową?</h3>
+          <span className="card-kicker">{content.briefKicker}</span>
+          <h3>{content.briefTitle}</h3>
           <ul>
-            {briefItems.map((item) => (
+            {content.briefItems.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
 
-        <form className="contact-form" onSubmit={(event) => event.preventDefault()}>
+        <form className="contact-form" onSubmit={handleSubmit}>
           <label>
-            Imię i firma
-            <input name="name" type="text" autoComplete="organization-title" placeholder="Anna, lokalna marka" />
+            {content.formNameLabel}
+            <input name="name" type="text" autoComplete="organization-title" placeholder={content.formNamePlaceholder} />
           </label>
           <label>
-            Email
-            <input name="email" type="email" autoComplete="email" placeholder="kontakt@firma.pl" />
+            {content.formEmailLabel}
+            <input name="email" type="email" autoComplete="email" placeholder={content.formEmailPlaceholder} />
           </label>
           <label>
-            Zakres projektu
+            {content.formScopeLabel}
             <select name="scope" defaultValue="">
               <option value="" disabled>
-                Wybierz zakres
+                {content.formScopePlaceholder}
               </option>
               <option>Strona wizytówkowa</option>
               <option>Strona produktowa</option>
@@ -50,14 +83,18 @@ export function ContactForm() {
             </select>
           </label>
           <label>
-            Wiadomość
-            <textarea name="message" rows={4} placeholder="Opisz firmę, ofertę i cel strony" />
+            {content.formMessageLabel}
+            <textarea name="message" rows={4} placeholder={content.formMessagePlaceholder} />
           </label>
-          <p className="form-note" role="note">
-            Dane nie są nigdzie wysyłane, dopóki nie zostanie podłączony docelowy kanał kontaktu.
+          <p className="form-note" role="status" aria-live="polite">
+            {status === 'idle' && content.formIdleNote}
+            {status === 'sending' && content.formSendingNote}
+            {status === 'sent' && content.formSuccessNote}
+            {status === 'offline' && content.formOfflineNote}
+            {status === 'error' && content.formErrorNote}
           </p>
-          <button className="button primary" type="button">
-            Przygotuj brief do wysłania
+          <button className="button primary" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? content.formSendingLabel : content.formSubmitLabel}
           </button>
         </form>
       </div>
