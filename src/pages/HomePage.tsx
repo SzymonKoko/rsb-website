@@ -5,11 +5,8 @@ import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
 import { Portfolio } from '../components/Portfolio';
 import { PageContentProvider } from '../content/pageContent';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export function HomePage() {
-  useScrollReveal();
-
   return (
     <PageContentProvider>
       <Header />

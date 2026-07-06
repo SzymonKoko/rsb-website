@@ -169,7 +169,7 @@ export function Features() {
 
   return (
     <section className="section offer" id="offer" aria-labelledby="offer-title">
-      <div className="section-heading premium-heading" data-reveal="section">
+      <div className="section-heading premium-heading">
         <p className="eyebrow">{content.offerEyebrow}</p>
         <h2 id="offer-title">{content.offerTitle}</h2>
         <p>{content.offerText}</p>
@@ -177,7 +177,7 @@ export function Features() {
 
       <div className="service-grid">
         {serviceItems.map((service) => (
-          <article className="service-card lift-card" data-reveal="card" key={service.title}>
+          <article className="service-card lift-card" key={service.title}>
             <span className="card-kicker">RSB</span>
             <h3>{service.title}</h3>
             <p>{service.text}</p>
@@ -186,13 +186,13 @@ export function Features() {
       </div>
 
       <div className="audience-block" aria-labelledby="audience-title">
-        <div className="section-heading compact-heading" data-reveal="section">
+        <div className="section-heading compact-heading">
           <p className="eyebrow">{content.audienceEyebrow}</p>
           <h2 id="audience-title">{content.audienceTitle}</h2>
         </div>
         <div className="audience-grid">
           {audiences.map((audience) => (
-            <article className="audience-card lift-card" data-reveal="card" key={audience.label}>
+            <article className="audience-card lift-card" key={audience.label}>
               <span>{audience.label}</span>
               <h3>{audience.title}</h3>
               <p>{audience.text}</p>
@@ -201,14 +201,14 @@ export function Features() {
         </div>
       </div>
 
-      <div className="metrics-panel" data-reveal="panel" aria-labelledby="metrics-title">
+      <div className="metrics-panel" aria-labelledby="metrics-title">
         <div>
           <p className="eyebrow">{content.metricsEyebrow}</p>
           <h2 id="metrics-title">{content.metricsTitle}</h2>
         </div>
         <div className="metrics-grid">
           {metrics.map((metric) => (
-            <article className="metric-card lift-card" data-reveal="card" key={metric.label}>
+            <article className="metric-card lift-card" key={metric.label}>
               <strong>{metric.value}</strong>
               <span>{metric.label}</span>
               <p>{metric.text}</p>
@@ -218,13 +218,13 @@ export function Features() {
       </div>
 
       <div className="process-panel" aria-labelledby="process-title">
-        <div className="section-heading compact-heading" data-reveal="section">
+        <div className="section-heading compact-heading">
           <p className="eyebrow">{content.processEyebrow}</p>
           <h2 id="process-title">{content.processTitle}</h2>
         </div>
         <div className="process-band" aria-label="Proces współpracy">
           {process.map((item) => (
-            <article className="process-step lift-card" data-reveal="card" key={item.step}>
+            <article className="process-step lift-card" key={item.step}>
               <span>{item.step}</span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -234,13 +234,13 @@ export function Features() {
       </div>
 
       <div className="faq-block" aria-labelledby="faq-title">
-        <div className="section-heading compact-heading" data-reveal="section">
+        <div className="section-heading compact-heading">
           <p className="eyebrow">{content.faqEyebrow}</p>
           <h2 id="faq-title">{content.faqTitle}</h2>
         </div>
         <div className="faq-list">
           {faqItems.map((faq) => (
-            <details className="faq-item lift-card" data-reveal="card" key={faq.question}>
+            <details className="faq-item lift-card" key={faq.question}>
               <summary>{faq.question}</summary>
               <p>{faq.answer}</p>
             </details>
