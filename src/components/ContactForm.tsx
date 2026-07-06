@@ -54,14 +54,14 @@ export function ContactForm() {
 
   return (
     <section className="section contact" id="contact" aria-labelledby="contact-title">
-      <div className="section-heading">
+      <div className="section-heading" data-reveal="section">
         <p className="eyebrow">{content.contactEyebrow}</p>
         <h2 id="contact-title">{content.contactTitle}</h2>
         <p>{content.contactText}</p>
       </div>
 
       <div className="contact-layout">
-        <div className="brief-card">
+        <div className="brief-card" data-reveal="from-left">
           <span className="card-kicker">{content.briefKicker}</span>
           <h3>{content.briefTitle}</h3>
           <ul>
@@ -71,7 +71,7 @@ export function ContactForm() {
           </ul>
         </div>
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form" data-reveal="from-right" onSubmit={handleSubmit}>
           <label>
             {content.formNameLabel}
             <input

@@ -99,7 +99,7 @@ export function Portfolio() {
 
   return (
     <section className="section portfolio" id="portfolio" aria-labelledby="portfolio-title">
-      <div className="portfolio-head">
+      <div className="portfolio-head" data-reveal="section">
         <div className="section-heading compact-heading">
           <p className="eyebrow">{content.portfolioEyebrow}</p>
           <h2 id="portfolio-title">{content.portfolioTitle}</h2>
@@ -109,7 +109,11 @@ export function Portfolio() {
 
       <div className="portfolio-grid">
         {projectItems.map((project) => (
-          <article className={`portfolio-card lift-card ${project.tone}`} key={project.index}>
+          <article
+            className={`portfolio-card lift-card ${project.tone}`}
+            data-reveal="card"
+            key={project.index}
+          >
             <div className="portfolio-preview" aria-hidden="true">
               {project.imageUrl ? (
                 <img src={project.imageUrl} alt="" loading="lazy" decoding="async" />
