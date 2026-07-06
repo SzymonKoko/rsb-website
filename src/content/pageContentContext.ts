@@ -34,7 +34,7 @@ export const fallbackPageContent: PageContent = {
   contactEyebrow: 'Kontakt',
   contactTitle: 'Zacznij od krótkiego briefu. Resztę uporządkujemy.',
   contactText:
-    'Formularz może wysyłać zapytania do dedykowanego CMS. Jeśli API nie jest jeszcze skonfigurowane, strona zostaje bezpiecznym briefem pomocniczym.',
+    'Formularz jest gotowy pod zewnętrzny moduł CMS. Dopóki API nie jest skonfigurowane, strona działa jako bezpieczny brief pomocniczy.',
   briefKicker: 'Brief',
   briefTitle: 'Co przygotować przed rozmową?',
   briefItems: [
@@ -51,10 +51,10 @@ export const fallbackPageContent: PageContent = {
   formScopePlaceholder: 'Wybierz zakres',
   formMessageLabel: 'Wiadomość',
   formMessagePlaceholder: 'Opisz firmę, ofertę i cel strony',
-  formIdleNote: 'Po podpięciu CMS zgłoszenie pojawi się w panelu admina jako nowy lead.',
-  formOfflineNote: 'CMS API nie jest skonfigurowane. Dodaj VITE_API_URL w .env.local, aby wysyłać zgłoszenia.',
+  formIdleNote: 'Po podpięciu zewnętrznego modułu CMS zgłoszenie będzie wysyłane jako nowy lead.',
+  formOfflineNote: 'Zewnętrzne API formularza nie jest jeszcze skonfigurowane. Dodaj VITE_API_URL, gdy moduł CMS będzie gotowy.',
   formErrorNote: 'Nie udało się wysłać zgłoszenia. Sprawdź dane i spróbuj ponownie.',
-  formSuccessNote: 'Dzięki. Zgłoszenie trafiło do panelu CMS.',
+  formSuccessNote: 'Dzięki. Zgłoszenie zostało wysłane.',
   formSendingNote: 'Wysyłanie zgłoszenia...',
   formSubmitLabel: 'Wyślij brief',
   formSendingLabel: 'Wysyłanie...',

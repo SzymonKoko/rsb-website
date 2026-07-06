@@ -64,11 +64,17 @@ export function ContactForm() {
         <form className="contact-form" onSubmit={handleSubmit}>
           <label>
             {content.formNameLabel}
-            <input name="name" type="text" autoComplete="organization-title" placeholder={content.formNamePlaceholder} />
+            <input
+              name="name"
+              type="text"
+              autoComplete="name"
+              placeholder={content.formNamePlaceholder}
+              required
+            />
           </label>
           <label>
             {content.formEmailLabel}
-            <input name="email" type="email" autoComplete="email" placeholder={content.formEmailPlaceholder} />
+            <input name="email" type="email" autoComplete="email" placeholder={content.formEmailPlaceholder} required />
           </label>
           <label>
             {content.formScopeLabel}
@@ -84,7 +90,7 @@ export function ContactForm() {
           </label>
           <label>
             {content.formMessageLabel}
-            <textarea name="message" rows={4} placeholder={content.formMessagePlaceholder} />
+            <textarea name="message" rows={4} placeholder={content.formMessagePlaceholder} required />
           </label>
           <p className="form-note" role="status" aria-live="polite">
             {status === 'idle' && content.formIdleNote}

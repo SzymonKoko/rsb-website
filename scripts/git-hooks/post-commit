@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+set -eu
+
+if [ "${RSB_SKIP_POST_COMMIT_RELOAD:-}" = "1" ]; then
+  echo "RSB post-commit reload skipped."
+  exit 0
+fi
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+cd "$ROOT_DIR"
+
+if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+  docker compose up -d --build app
+  echo "RSB site rebuilt and reloaded through docker compose."
+else
+  npm run build
+  echo "RSB site built. Docker Compose is unavailable, so no container reload was performed."
+fi

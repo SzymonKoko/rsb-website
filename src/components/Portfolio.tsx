@@ -65,21 +65,27 @@ export function Portfolio() {
 
     getPortfolio()
       .then((response) => {
-        if (!isMounted || !response.data.length) {
+        const projects = Array.isArray(response.data) ? response.data : [];
+
+        if (!isMounted || !projects.length) {
           return;
         }
 
         setProjectItems(
-          response.data.map((project, index) => ({
-            index: String(index + 1).padStart(2, '0'),
-            type: project.category,
-            title: project.title,
-            text: project.description,
-            results: project.tags.length ? project.tags : [project.category],
-            tone: tones[index % tones.length],
-            imageUrl: project.imageUrl,
-            projectUrl: project.projectUrl,
-          })),
+          projects.map((project, index) => {
+            const tags = Array.isArray(project.tags) ? project.tags : [];
+
+            return {
+              index: String(index + 1).padStart(2, '0'),
+              type: project.category,
+              title: project.title,
+              text: project.description,
+              results: tags.length ? tags : [project.category],
+              tone: tones[index % tones.length],
+              imageUrl: project.imageUrl,
+              projectUrl: project.projectUrl,
+            };
+          }),
         );
       })
       .catch(() => {
