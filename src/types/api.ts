@@ -78,6 +78,7 @@ export type PageContent = {
   formScopePlaceholder: string;
   formMessageLabel: string;
   formMessagePlaceholder: string;
+  formConsentLabel: string;
   formIdleNote: string;
   formOfflineNote: string;
   formErrorNote: string;
