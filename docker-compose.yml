@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: rsb-website
+    restart: unless-stopped
+    ports:
+      - "3101:80"
