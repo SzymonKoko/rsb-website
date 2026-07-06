@@ -137,18 +137,21 @@ export function Features() {
           return;
         }
 
-        if (servicesResponse.data.length) {
+        const services = Array.isArray(servicesResponse.data) ? servicesResponse.data : [];
+        const faqs = Array.isArray(faqsResponse.data) ? faqsResponse.data : [];
+
+        if (services.length) {
           setServiceItems(
-            servicesResponse.data.map((service) => ({
+            services.map((service) => ({
               title: service.title,
               text: service.description,
             })),
           );
         }
 
-        if (faqsResponse.data.length) {
+        if (faqs.length) {
           setFaqItems(
-            faqsResponse.data.map((faq) => ({
+            faqs.map((faq) => ({
               question: faq.question,
               answer: faq.answer,
             })),

@@ -1,6 +1,6 @@
 import type { ApiFaq, ApiList, ApiPortfolioItem, ApiService, ContactSubmission, PageContent } from '../types/api';
 
-const API_URL = import.meta.env.VITE_API_URL as string | undefined;
+const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, '');
 
 export function hasCmsApi() {
   return Boolean(API_URL);
