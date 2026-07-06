@@ -448,6 +448,105 @@ h3 {
   box-shadow: 0 0 0 3px rgb(15 118 110 / 0.16), var(--shadow-soft);
 }
 
+.reveal-ready [data-reveal] {
+  --reveal-x: 0;
+  --reveal-y: 22px;
+  --reveal-opacity: 0;
+  --reveal-delay: 0ms;
+  opacity: var(--reveal-opacity);
+  transform: translate3d(var(--reveal-x), var(--reveal-y), 0);
+  transition:
+    opacity 520ms ease,
+    transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.reveal-ready [data-reveal="section"] {
+  --reveal-y: 20px;
+}
+
+.reveal-ready [data-reveal="panel"] {
+  --reveal-y: 24px;
+  --reveal-opacity: 1;
+}
+
+.reveal-ready [data-reveal="card"] {
+  --reveal-y: 20px;
+  --reveal-opacity: 1;
+}
+
+.reveal-ready [data-reveal="from-left"] {
+  --reveal-x: -22px;
+  --reveal-y: 12px;
+  --reveal-opacity: 1;
+}
+
+.reveal-ready [data-reveal="from-right"] {
+  --reveal-x: 22px;
+  --reveal-y: 12px;
+  --reveal-opacity: 1;
+}
+
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.reveal-ready .lift-card[data-reveal].is-visible:hover {
+  transform: translateY(-6px);
+}
+
+:is(.service-grid, .audience-grid, .metrics-grid, .process-band, .faq-list, .portfolio-grid)
+  > [data-reveal]:nth-child(2) {
+  --reveal-delay: 80ms;
+}
+
+:is(.service-grid, .audience-grid, .metrics-grid, .process-band, .faq-list, .portfolio-grid)
+  > [data-reveal]:nth-child(3) {
+  --reveal-delay: 150ms;
+}
+
+:is(.service-grid, .audience-grid, .metrics-grid, .process-band, .faq-list, .portfolio-grid)
+  > [data-reveal]:nth-child(4) {
+  --reveal-delay: 220ms;
+}
+
+:is(.service-grid, .audience-grid, .metrics-grid, .process-band, .faq-list, .portfolio-grid)
+  > [data-reveal]:nth-child(5) {
+  --reveal-delay: 290ms;
+}
+
+:is(.service-grid, .audience-grid, .metrics-grid, .process-band, .faq-list, .portfolio-grid)
+  > [data-reveal]:nth-child(n + 6) {
+  --reveal-delay: 340ms;
+}
+
+.reveal-ready .portfolio-card[data-reveal] .portfolio-preview span,
+.reveal-ready .portfolio-card[data-reveal] .portfolio-preview div {
+  transform: translateY(12px);
+  opacity: 0;
+  transition:
+    opacity 620ms ease,
+    transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-ready .portfolio-card[data-reveal] .portfolio-preview span:nth-child(2) {
+  transition-delay: 80ms;
+}
+
+.reveal-ready .portfolio-card[data-reveal] .portfolio-preview span:nth-child(3),
+.reveal-ready .portfolio-card[data-reveal] .portfolio-preview div {
+  transition-delay: 150ms;
+}
+
+.reveal-ready .portfolio-card[data-reveal].is-visible .portfolio-preview span,
+.reveal-ready .portfolio-card[data-reveal].is-visible .portfolio-preview div {
+  transform: translateY(0);
+  opacity: 1;
+}
+
 .service-card {
   min-height: 260px;
   display: flex;
@@ -669,6 +768,31 @@ textarea {
 
 textarea {
   resize: vertical;
+}
+
+.consent-field {
+  grid-template-columns: 18px 1fr;
+  align-items: start;
+  gap: 11px;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.consent-field input {
+  width: 18px;
+  min-height: 18px;
+  margin-top: 2px;
+  accent-color: var(--color-teal);
+}
+
+.honeypot-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .form-note {
@@ -913,6 +1037,14 @@ textarea {
   }
 
   .lift-card:hover {
+    transform: none;
+  }
+
+  .reveal-ready [data-reveal],
+  .reveal-ready .portfolio-card[data-reveal] .portfolio-preview span,
+  .reveal-ready .portfolio-card[data-reveal] .portfolio-preview div {
+    opacity: 1;
+    filter: none;
     transform: none;
   }
 }

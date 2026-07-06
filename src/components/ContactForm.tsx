@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { hasCmsApi, submitContact } from '../api/client';
+import { getContactMode, submitContactForm } from '../api/client';
 import { usePageContent } from '../content/pageContentContext';
 
 export function ContactForm() {
@@ -9,19 +9,27 @@ export function ContactForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!hasCmsApi()) {
-      setStatus('offline');
-      return;
-    }
-
     const form = event.currentTarget;
     const formData = new FormData(form);
     const name = String(formData.get('name') ?? '').trim();
     const email = String(formData.get('email') ?? '').trim();
     const scope = String(formData.get('scope') ?? '').trim();
     const message = String(formData.get('message') ?? '').trim();
+    const botcheck = String(formData.get('botcheck') ?? '').trim();
+    const consentAccepted = formData.get('consent') === 'on';
 
-    if (!name || !email || !message) {
+    if (botcheck) {
+      form.reset();
+      setStatus('sent');
+      return;
+    }
+
+    if (getContactMode() === 'offline') {
+      setStatus('offline');
+      return;
+    }
+
+    if (!name || !email || !message || !consentAccepted) {
       setStatus('error');
       return;
     }
@@ -29,11 +37,13 @@ export function ContactForm() {
     setStatus('sending');
 
     try {
-      await submitContact({
+      await submitContactForm({
         name,
         email,
-        company: scope || null,
-        message: scope ? `Zakres: ${scope}\n\n${message}` : message,
+        scope,
+        message,
+        consentAccepted,
+        botcheck,
       });
       form.reset();
       setStatus('sent');
@@ -44,14 +54,14 @@ export function ContactForm() {
 
   return (
     <section className="section contact" id="contact" aria-labelledby="contact-title">
-      <div className="section-heading">
+      <div className="section-heading" data-reveal="section">
         <p className="eyebrow">{content.contactEyebrow}</p>
         <h2 id="contact-title">{content.contactTitle}</h2>
         <p>{content.contactText}</p>
       </div>
 
       <div className="contact-layout">
-        <div className="brief-card">
+        <div className="brief-card" data-reveal="from-left">
           <span className="card-kicker">{content.briefKicker}</span>
           <h3>{content.briefTitle}</h3>
           <ul>
@@ -61,7 +71,7 @@ export function ContactForm() {
           </ul>
         </div>
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form" data-reveal="from-right" onSubmit={handleSubmit}>
           <label>
             {content.formNameLabel}
             <input
@@ -88,9 +98,17 @@ export function ContactForm() {
               <option>Kompletny pakiet</option>
             </select>
           </label>
+          <label className="honeypot-field" aria-hidden="true">
+            Nie wypelniaj tego pola
+            <input name="botcheck" type="text" tabIndex={-1} autoComplete="off" />
+          </label>
           <label>
             {content.formMessageLabel}
             <textarea name="message" rows={4} placeholder={content.formMessagePlaceholder} required />
+          </label>
+          <label className="consent-field">
+            <input name="consent" type="checkbox" required />
+            <span>{content.formConsentLabel}</span>
           </label>
           <p className="form-note" role="status" aria-live="polite">
             {status === 'idle' && content.formIdleNote}

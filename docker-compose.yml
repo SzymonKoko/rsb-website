@@ -1,6 +1,11 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_SITE_URL: ${VITE_SITE_URL:-https://rozwinswojbiznes.pl}
+        VITE_API_URL: ${VITE_API_URL:-}
+        VITE_WEB3FORMS_ACCESS_KEY: ${VITE_WEB3FORMS_ACCESS_KEY:-5c782e60-0928-42d7-8637-1153bd72780d}
     container_name: rsb-website
     restart: unless-stopped
     ports:

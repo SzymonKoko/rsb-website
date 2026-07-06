@@ -34,7 +34,7 @@ export const fallbackPageContent: PageContent = {
   contactEyebrow: 'Kontakt',
   contactTitle: 'Zacznij od krótkiego briefu. Resztę uporządkujemy.',
   contactText:
-    'Formularz jest gotowy pod zewnętrzny moduł CMS. Dopóki API nie jest skonfigurowane, strona działa jako bezpieczny brief pomocniczy.',
+    'Formularz wysyła zapytanie na mail RSB. Gdy moduł CMS będzie gotowy, można przełączyć go na zapis leadów w panelu.',
   briefKicker: 'Brief',
   briefTitle: 'Co przygotować przed rozmową?',
   briefItems: [
@@ -51,10 +51,13 @@ export const fallbackPageContent: PageContent = {
   formScopePlaceholder: 'Wybierz zakres',
   formMessageLabel: 'Wiadomość',
   formMessagePlaceholder: 'Opisz firmę, ofertę i cel strony',
-  formIdleNote: 'Po podpięciu zewnętrznego modułu CMS zgłoszenie będzie wysyłane jako nowy lead.',
-  formOfflineNote: 'Zewnętrzne API formularza nie jest jeszcze skonfigurowane. Dodaj VITE_API_URL, gdy moduł CMS będzie gotowy.',
-  formErrorNote: 'Nie udało się wysłać zgłoszenia. Sprawdź dane i spróbuj ponownie.',
-  formSuccessNote: 'Dzięki. Zgłoszenie zostało wysłane.',
+  formConsentLabel:
+    'Wyrażam zgodę na kontakt w sprawie przesłanego zapytania i przetwarzanie podanych danych w tym celu.',
+  formIdleNote: 'Zgłoszenie trafi bezpośrednio na mail RSB. Odpowiedź wróci na podany adres email.',
+  formOfflineNote:
+    'Formularz nie ma jeszcze skonfigurowanej wysyłki. Dodaj VITE_WEB3FORMS_ACCESS_KEY albo VITE_API_URL.',
+  formErrorNote: 'Nie udało się wysłać zgłoszenia. Sprawdź dane, zgodę i spróbuj ponownie.',
+  formSuccessNote: 'Dzięki. Zgłoszenie zostało wysłane na mail RSB.',
   formSendingNote: 'Wysyłanie zgłoszenia...',
   formSubmitLabel: 'Wyślij brief',
   formSendingLabel: 'Wysyłanie...',
